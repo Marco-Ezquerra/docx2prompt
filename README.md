@@ -1,16 +1,33 @@
 # docx2prompt
 
-Extrae comentarios nativos de Word (`.docx`) a Markdown listo para agentes de IA
-(p. ej. Cursor). Esta pensado para informes redactados en **R Markdown (`.Rmd`)**:
-el agente aplica las instrucciones sobre esos fuentes. No requiere bookdown;
-`book/` es solo un ejemplo si organizas los Rmd en una carpeta.
+[![R-CMD-check](https://github.com/Marco-Ezquerra/docx2prompt/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Marco-Ezquerra/docx2prompt/actions/workflows/R-CMD-check.yaml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Requisitos
+Paquete **R** con motor **Python** local: convierte comentarios nativos de Word (`.docx`) en un checklist Markdown listo para agentes de IA (p. ej. Cursor), pensado para informes escritos en **R Markdown (`.Rmd`)**.
 
-- R >= 4.1
-- Python >= 3.8 en el PATH (o variable `DOCX2PROMPT_PYTHON` con la ruta al ejecutable)
+## Antes, puente y despues
 
-No hace falta instalar paquetes Python: el extractor usa solo la biblioteca estandar.
+**Antes** — Word generado desde Rmd (tablas, graficos, redaccion) con comentarios de revision:
+
+![Word con comentarios](man/figures/01-word-comentarios.png)
+
+**Puente** — extraccion local a Markdown:
+
+```r
+docx2prompt::extraer_feedback("informe.docx")
+# → FEEDBACK.md
+```
+
+**Despues** — el agente aplica cada tarea sobre los `.Rmd` fuente usando el checklist:
+
+![Cursor aplicando cambios en el Rmd](man/figures/02-cursor-rmd.png)
+
+```markdown
+- [ ] **Texto original:** `fragmento senalado en Word`
+      **Instruccion:** cambia X por Y
+```
+
+> Capturas pendientes de un caso real — ver [man/figures/README.md](man/figures/README.md) para el checklist de pantallazos.
 
 ## Instalacion
 
@@ -19,18 +36,15 @@ No hace falta instalar paquetes Python: el extractor usa solo la biblioteca esta
 remotes::install_github("Marco-Ezquerra/docx2prompt")
 ```
 
+**Requisitos:** R >= 4.1 y Python >= 3.8 en el PATH (o `DOCX2PROMPT_PYTHON`). No hace falta ningun paquete pip: el extractor usa solo la biblioteca estandar de Python.
+
 En desarrollo (clon del repo):
 
 ```r
 devtools::load_all()
 ```
 
-## Flujo de uso
-
-1. Revisa el informe exportado a Word y deja **comentarios nativos** sobre el texto.
-2. Extrae el feedback a Markdown.
-3. Abre el `.md` en Cursor y pide aplicar las tareas sobre los `.Rmd` fuente.
-4. Cuando termines, vacia el feedback para la siguiente iteracion.
+## Uso minimo
 
 ```r
 library(docx2prompt)
@@ -38,36 +52,39 @@ library(docx2prompt)
 extraer_feedback("informe_comentado.docx")
 # → FEEDBACK.md (prompt por defecto: *.Rmd)
 
-# Si usas bookdown u otra carpeta de fuentes:
-extraer_feedback(
-  "informe_comentado.docx",
-  output_md = "revisiones.md",
-  source_glob = "book/*.Rmd"
-)
-
 # Tras aplicar las correcciones con el agente:
 vaciar_feedback()
 ```
 
-Ayuda en R: `?docx2prompt`, `?extraer_feedback`, `help(package = "docx2prompt")`.
-
-## Que genera
-
-Un checklist Markdown del estilo:
-
-```markdown
-- [ ] **Texto original:** `fragmento senalado en Word`
-      **Instruccion:** cambia X por Y
-```
-
-El prompt embebido indica al agente donde buscar (`source_glob`, por defecto
-`*.Rmd`) y que marque las casillas al terminar.
-
-## Pruebas
+Por defecto el prompt apunta a `*.Rmd` (cualquier R Markdown del proyecto). Si usas bookdown u otra carpeta:
 
 ```r
-devtools::test()
+extraer_feedback("informe.docx", source_glob = "book/*.Rmd")
 ```
+
+Ayuda en R: `?docx2prompt`, `?extraer_feedback`, `help(package = "docx2prompt")`.
+
+## Flujo
+
+```mermaid
+flowchart LR
+  wordDoc["Word_con_comentarios"] --> extract["extraer_feedback"]
+  extract --> feedbackMd["FEEDBACK.md"]
+  feedbackMd --> agent["Agente_Cursor"]
+  agent --> rmdSrc["Edita_Rmd"]
+```
+
+1. Knit / exporta el informe a Word y deja **comentarios nativos**.
+2. `extraer_feedback()` genera el checklist.
+3. Cursor (u otro agente) aplica cada **Instruccion** sobre el texto en los `.Rmd`.
+4. `vaciar_feedback()` limpia el Markdown para la siguiente iteracion.
+
+## FAQ: privacidad y tokens
+
+- **Extraccion 100% local.** El `.docx` se lee en tu maquina (ZIP + XML). No se envia a ninguna API ni servicio en la nube para extraer comentarios.
+- **El agente no ve el Word entero.** Solo trabaja con el checklist: fragmentos senalados + instrucciones. Menos contexto = menos tokens y menos coste.
+- **Menos fuga de contenido sensible.** Tablas, anexos y redaccion completa no tienen que entrar en el prompt del agente si no estan en el checklist.
+- **Python sin dependencias externas.** Solo biblioteca estandar; no hay telemetria del extractor.
 
 ## Licencia
 
