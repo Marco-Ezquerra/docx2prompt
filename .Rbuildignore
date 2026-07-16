@@ -1,0 +1,11 @@
+^docx2prompt\.Rproj$
+^\.Rproj\.user$
+^\.Rhistory$
+^\.RData$
+^doco\.R$
+^LICENSE\.md$
+^README\.Rmd$
+^\.github$
+^output$
+^FEEDBACK\.md$
+^\.gitignore$

@@ -1,0 +1,18 @@
+Package: docx2prompt
+Title: From Word Comments to AI-Ready Markdown Prompts
+Version: 0.0.0.9000
+Authors@R: 
+    person("Marco", "Ezquerra Ruano", , "marcoezquerraruano@gmail.com", role = c("aut", "cre"))
+Description: Extrae comentarios nativos de Word (.docx) a Markdown
+    listo para agentes de IA (p. ej. Cursor), pensado para flujos de
+    revision de informes redactados en R / R Markdown.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 8.0.0
+Depends: 
+    R (>= 4.1)
+SystemRequirements: Python (>= 3.8)
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
