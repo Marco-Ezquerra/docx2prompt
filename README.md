@@ -12,24 +12,15 @@ No hace falta instalar paquetes Python: el extractor usa solo la biblioteca esta
 
 ## Instalacion
 
-Desde el directorio del paquete:
-
 ```r
-# install.packages(c("devtools", "roxygen2"))
-devtools::install()
+# install.packages("remotes")
+remotes::install_github("Marco-Ezquerra/docx2prompt")
 ```
 
-En desarrollo:
+En desarrollo (clon del repo):
 
 ```r
 devtools::load_all()
-```
-
-Desde GitHub (cuando el repo este publicado):
-
-```r
-# install.packages("remotes")
-remotes::install_github("TU_USUARIO/docx2prompt")
 ```
 
 ## Flujo de uso
@@ -71,16 +62,6 @@ El prompt embebido indica al agente donde buscar (`source_glob`) y que marque la
 
 ```r
 devtools::test()
-```
-
-## CI (GitHub Actions)
-
-Hay un workflow en [`.github/workflows/R-CMD-check.yaml`](.github/workflows/R-CMD-check.yaml).
-Antes de subir el repo, confirma que el remoto apunta a **tu cuenta personal** de GitHub:
-
-```bash
-git init
-git remote add origin https://github.com/<tu-usuario-personal>/docx2prompt.git
 ```
 
 ## Licencia

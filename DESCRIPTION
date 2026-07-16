@@ -8,6 +8,8 @@ Description: Extrae comentarios nativos de Word (.docx) a Markdown
     revision de informes redactados en R / R Markdown.
 License: MIT + file LICENSE
 Encoding: UTF-8
+URL: https://github.com/Marco-Ezquerra/docx2prompt
+BugReports: https://github.com/Marco-Ezquerra/docx2prompt/issues
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 8.0.0
 Depends: 
