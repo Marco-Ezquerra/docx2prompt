@@ -7,9 +7,15 @@ Paquete **R** con motor **Python** local: convierte comentarios nativos de Word 
 
 ## Antes, puente y despues
 
-**Antes** — Word generado desde Rmd (tablas, graficos, redaccion) con comentarios de revision:
+**Antes** — comentarios nativos en el Word (figura + conclusiones):
 
-![Word con comentarios](man/figures/01-word-comentarios.png)
+<p align="center">
+  <img src="man/figures/1.png" alt="Comentario en Word sobre una figura" width="720" />
+</p>
+
+<p align="center">
+  <img src="man/figures/2.png" alt="Comentarios en Word sobre las conclusiones" width="720" />
+</p>
 
 **Puente** — extraccion local a Markdown:
 
@@ -18,16 +24,13 @@ docx2prompt::extraer_feedback("informe.docx")
 # → FEEDBACK.md
 ```
 
-**Despues** — el agente aplica cada tarea sobre los `.Rmd` fuente usando el checklist:
+**Despues** — el prompt / checklist que recibe el agente:
 
-![Cursor aplicando cambios en el Rmd](man/figures/02-cursor-rmd.png)
+<p align="center">
+  <img src="man/figures/3.png" alt="FEEDBACK.md generado con el prompt para Cursor" width="720" />
+</p>
 
-```markdown
-- [ ] **Texto original:** `fragmento senalado en Word`
-      **Instruccion:** cambia X por Y
-```
-
-> Capturas pendientes de un caso real — ver [man/figures/README.md](man/figures/README.md) para el checklist de pantallazos.
+El agente busca cada **Texto original** en los `.Rmd` y aplica la **Instruccion**.
 
 ## Instalacion
 

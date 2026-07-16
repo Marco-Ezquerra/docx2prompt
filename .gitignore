@@ -6,3 +6,6 @@ output/
 FEEDBACK.md
 *.html
 .DS_Store
+
+# Demo local para capturas del README (no se sube al remoto)
+demo-informe/
