@@ -1,7 +1,9 @@
 # docx2prompt
 
 Extrae comentarios nativos de Word (`.docx`) a Markdown listo para agentes de IA
-(p. ej. Cursor), pensado para flujos de revision de informes en R / R Markdown.
+(p. ej. Cursor). Esta pensado para informes redactados en **R Markdown (`.Rmd`)**:
+el agente aplica las instrucciones sobre esos fuentes. No requiere bookdown;
+`book/` es solo un ejemplo si organizas los Rmd en una carpeta.
 
 ## Requisitos
 
@@ -34,9 +36,9 @@ devtools::load_all()
 library(docx2prompt)
 
 extraer_feedback("informe_comentado.docx")
-# → FEEDBACK.md
+# → FEEDBACK.md (prompt por defecto: *.Rmd)
 
-# Opcional: otra salida y otra carpeta de fuentes
+# Si usas bookdown u otra carpeta de fuentes:
 extraer_feedback(
   "informe_comentado.docx",
   output_md = "revisiones.md",
@@ -47,6 +49,8 @@ extraer_feedback(
 vaciar_feedback()
 ```
 
+Ayuda en R: `?docx2prompt`, `?extraer_feedback`, `help(package = "docx2prompt")`.
+
 ## Que genera
 
 Un checklist Markdown del estilo:
@@ -56,7 +60,8 @@ Un checklist Markdown del estilo:
       **Instruccion:** cambia X por Y
 ```
 
-El prompt embebido indica al agente donde buscar (`source_glob`) y que marque las casillas al terminar.
+El prompt embebido indica al agente donde buscar (`source_glob`, por defecto
+`*.Rmd`) y que marque las casillas al terminar.
 
 ## Pruebas
 

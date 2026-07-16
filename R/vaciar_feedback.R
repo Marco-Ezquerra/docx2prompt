@@ -5,20 +5,27 @@
 #' siguiente iteracion con un agente.
 #'
 #' @param md_path Ruta al Markdown de feedback. Por defecto `"FEEDBACK.md"`.
-#' @param source_glob Glob de fuentes mostrado en el prompt de la plantilla.
-#'   Por defecto `"book/*.Rmd"`.
+#' @param source_glob Glob de fuentes `.Rmd` mostrado en el prompt de la
+#'   plantilla. Por defecto `"*.Rmd"`. En bookdown puedes usar
+#'   `"book/*.Rmd"`.
 #'
 #' @return Ruta del archivo vaciado (invisible).
+#'
+#' @details
+#' Usa esta funcion despues de que el agente haya aplicado las correcciones
+#' del checklist generado por [extraer_feedback()].
+#'
+#' @seealso [extraer_feedback()]
 #'
 #' @examples
 #' \dontrun{
 #' vaciar_feedback()
-#' vaciar_feedback("revisiones.md")
+#' vaciar_feedback("revisiones.md", source_glob = "book/*.Rmd")
 #' }
 #'
 #' @export
 vaciar_feedback <- function(md_path = "FEEDBACK.md",
-                            source_glob = "book/*.Rmd") {
+                            source_glob = "*.Rmd") {
   stamp <- format(Sys.time(), "%Y-%m-%d %H:%M")
   lines <- c(
     sprintf("# Revisiones del documento - %s", stamp),

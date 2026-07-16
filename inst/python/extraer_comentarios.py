@@ -3,7 +3,7 @@
 
 Uso:
   python extraer_comentarios.py input.docx [output.md]
-  python extraer_comentarios.py input.docx -o FEEDBACK.md --source-glob "book/*.Rmd"
+  python extraer_comentarios.py input.docx -o FEEDBACK.md --source-glob "*.Rmd"
   python extraer_comentarios.py --help
 """
 
@@ -101,7 +101,7 @@ def extract_comments_from_docx(docx_path: Path) -> list[dict[str, str]]:
 def write_markdown_feedback(
     comments: list[dict[str, str]],
     output_path: Path,
-    source_glob: str = "book/*.Rmd",
+    source_glob: str = "*.Rmd",
 ) -> None:
     stamp = datetime.now().strftime("%Y-%m-%d %H:%M")
     lines = [
@@ -154,8 +154,8 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument(
         "--source-glob",
-        default="book/*.Rmd",
-        help='Glob de fuentes para el prompt (default: "book/*.Rmd")',
+        default="*.Rmd",
+        help='Glob de fuentes .Rmd para el prompt (default: "*.Rmd")',
     )
     args = parser.parse_args(argv)
 

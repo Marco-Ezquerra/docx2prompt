@@ -4,13 +4,14 @@
 \alias{vaciar_feedback}
 \title{Vacia un archivo de feedback Markdown}
 \usage{
-vaciar_feedback(md_path = "FEEDBACK.md", source_glob = "book/*.Rmd")
+vaciar_feedback(md_path = "FEEDBACK.md", source_glob = "*.Rmd")
 }
 \arguments{
 \item{md_path}{Ruta al Markdown de feedback. Por defecto \code{"FEEDBACK.md"}.}
 
-\item{source_glob}{Glob de fuentes mostrado en el prompt de la plantilla.
-Por defecto \code{"book/*.Rmd"}.}
+\item{source_glob}{Glob de fuentes \code{.Rmd} mostrado en el prompt de la
+plantilla. Por defecto \code{"*.Rmd"}. En bookdown puedes usar
+\code{"book/*.Rmd"}.}
 }
 \value{
 Ruta del archivo vaciado (invisible).
@@ -20,10 +21,17 @@ Sobrescribe \code{FEEDBACK.md} (u otra ruta) con una plantilla limpia para
 no acumular tareas ya aplicadas ni consumir tokens innecesarios en la
 siguiente iteracion con un agente.
 }
+\details{
+Usa esta funcion despues de que el agente haya aplicado las correcciones
+del checklist generado por \code{\link[=extraer_feedback]{extraer_feedback()}}.
+}
 \examples{
 \dontrun{
 vaciar_feedback()
-vaciar_feedback("revisiones.md")
+vaciar_feedback("revisiones.md", source_glob = "book/*.Rmd")
 }
 
+}
+\seealso{
+\code{\link[=extraer_feedback]{extraer_feedback()}}
 }

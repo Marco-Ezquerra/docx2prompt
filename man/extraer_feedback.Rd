@@ -4,19 +4,16 @@
 \alias{extraer_feedback}
 \title{Extrae comentarios de un archivo Word a un formato legible por IA}
 \usage{
-extraer_feedback(
-  docx_path,
-  output_md = "FEEDBACK.md",
-  source_glob = "book/*.Rmd"
-)
+extraer_feedback(docx_path, output_md = "FEEDBACK.md", source_glob = "*.Rmd")
 }
 \arguments{
 \item{docx_path}{Ruta al archivo \code{.docx} a analizar.}
 
 \item{output_md}{Ruta donde se generara el Markdown. Por defecto \code{"FEEDBACK.md"}.}
 
-\item{source_glob}{Glob o ruta relativa de fuentes para el prompt embebido.
-Por defecto \code{"book/*.Rmd"}.}
+\item{source_glob}{Glob o ruta relativa de fuentes \code{.Rmd} para el prompt
+embebido. Por defecto \code{"*.Rmd"} (cualquier R Markdown del proyecto).
+En bookdown puedes usar p. ej. \code{"book/*.Rmd"}.}
 }
 \value{
 Ruta del Markdown generado (invisible).
@@ -24,13 +21,26 @@ Ruta del Markdown generado (invisible).
 \description{
 Lee los comentarios nativos de un \code{.docx} y genera un Markdown con
 checklist (p. ej. \code{FEEDBACK.md}) orientado a agentes como Cursor.
-El agente busca cada \strong{Texto original} en los archivos fuente
-(por defecto \verb{book/*.Rmd}) y aplica la \strong{Instruccion}.
+El agente busca cada \strong{Texto original} en los archivos \code{.Rmd} fuente
+(por defecto \verb{*.Rmd}) y aplica la \strong{Instruccion}.
+}
+\details{
+Flujo tipico:
+\enumerate{
+\item Revisas el informe en Word y dejas comentarios nativos.
+\item Ejecutas \code{extraer_feedback()} para generar el checklist Markdown.
+\item En Cursor (u otro agente), abres el \code{.md} y aplicas cada tarea sobre
+los \code{.Rmd} fuente.
+\item Cuando termines, llama a \code{\link[=vaciar_feedback]{vaciar_feedback()}} para limpiar el checklist.
+}
 }
 \examples{
 \dontrun{
 extraer_feedback("informe_comentado.docx")
-extraer_feedback("informe.docx", "revisiones.md", source_glob = "Rmd/*.Rmd")
+extraer_feedback("informe.docx", "revisiones.md", source_glob = "book/*.Rmd")
 }
 
+}
+\seealso{
+\code{\link[=vaciar_feedback]{vaciar_feedback()}}
 }

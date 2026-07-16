@@ -2,26 +2,37 @@
 #'
 #' Lee los comentarios nativos de un `.docx` y genera un Markdown con
 #' checklist (p. ej. `FEEDBACK.md`) orientado a agentes como Cursor.
-#' El agente busca cada **Texto original** en los archivos fuente
-#' (por defecto `book/*.Rmd`) y aplica la **Instruccion**.
+#' El agente busca cada **Texto original** en los archivos `.Rmd` fuente
+#' (por defecto `*.Rmd`) y aplica la **Instruccion**.
 #'
 #' @param docx_path Ruta al archivo `.docx` a analizar.
 #' @param output_md Ruta donde se generara el Markdown. Por defecto `"FEEDBACK.md"`.
-#' @param source_glob Glob o ruta relativa de fuentes para el prompt embebido.
-#'   Por defecto `"book/*.Rmd"`.
+#' @param source_glob Glob o ruta relativa de fuentes `.Rmd` para el prompt
+#'   embebido. Por defecto `"*.Rmd"` (cualquier R Markdown del proyecto).
+#'   En bookdown puedes usar p. ej. `"book/*.Rmd"`.
 #'
 #' @return Ruta del Markdown generado (invisible).
+#'
+#' @details
+#' Flujo tipico:
+#' 1. Revisas el informe en Word y dejas comentarios nativos.
+#' 2. Ejecutas `extraer_feedback()` para generar el checklist Markdown.
+#' 3. En Cursor (u otro agente), abres el `.md` y aplicas cada tarea sobre
+#'    los `.Rmd` fuente.
+#' 4. Cuando termines, llama a [vaciar_feedback()] para limpiar el checklist.
+#'
+#' @seealso [vaciar_feedback()]
 #'
 #' @examples
 #' \dontrun{
 #' extraer_feedback("informe_comentado.docx")
-#' extraer_feedback("informe.docx", "revisiones.md", source_glob = "Rmd/*.Rmd")
+#' extraer_feedback("informe.docx", "revisiones.md", source_glob = "book/*.Rmd")
 #' }
 #'
 #' @export
 extraer_feedback <- function(docx_path,
                              output_md = "FEEDBACK.md",
-                             source_glob = "book/*.Rmd") {
+                             source_glob = "*.Rmd") {
   py_exe <- find_python()
   if (is.null(py_exe)) {
     stop(
