@@ -3,7 +3,7 @@
 [![R-CMD-check](https://github.com/Marco-Ezquerra/docx2prompt/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Marco-Ezquerra/docx2prompt/actions/workflows/R-CMD-check.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Paquete **R** con motor **Python** local: convierte comentarios nativos de Word (`.docx`) en un checklist Markdown listo para agentes de IA (p. ej. Cursor), pensado para informes escritos en **R Markdown (`.Rmd`)**.
+Paquete **R** + paquete **Python** local: convierte comentarios nativos de Word (`.docx`) en un checklist Markdown listo para agentes de IA (p. ej. Cursor). Pensado para informes en **R Markdown** o **Quarto**.
 
 ## Antes, puente y despues
 
@@ -21,7 +21,10 @@ Paquete **R** con motor **Python** local: convierte comentarios nativos de Word 
 
 ```r
 docx2prompt::extraer_feedback("informe.docx")
-# → FEEDBACK.md
+```
+
+```bash
+docx2prompt extract informe.docx --source-glob "*.qmd"
 ```
 
 **Despues** — el prompt / checklist que recibe el agente:
@@ -30,64 +33,69 @@ docx2prompt::extraer_feedback("informe.docx")
   <img src="man/figures/3.png" alt="FEEDBACK.md generado con el prompt para Cursor" width="720" />
 </p>
 
-El agente busca cada **Texto original** en los `.Rmd` y aplica la **Instruccion**.
-
 ## Instalacion
 
+### R
+
 ```r
-# install.packages("remotes")
 remotes::install_github("Marco-Ezquerra/docx2prompt")
 ```
 
-**Requisitos:** R >= 4.1 y Python >= 3.8 en el PATH (o `DOCX2PROMPT_PYTHON`). No hace falta ningun paquete pip: el extractor usa solo la biblioteca estandar de Python.
+### Python (Quarto)
 
-En desarrollo (clon del repo):
-
-```r
-devtools::load_all()
+```bash
+pip install "git+https://github.com/Marco-Ezquerra/docx2prompt.git#subdirectory=python"
+# desarrollo local:
+pip install -e python/
 ```
 
-## Uso minimo
+**Requisitos:** R >= 4.1 y/o Python >= 3.8. Sin dependencias pip externas en el extractor.
+
+## R Markdown y Quarto
+
+| Flujo | Comando | `source_glob` por defecto |
+|-------|---------|---------------------------|
+| R Markdown | `extraer_feedback("informe.docx")` | `*.Rmd` |
+| Quarto (Python) | `docx2prompt extract informe.docx` | `*.qmd` |
+
+### R Markdown
 
 ```r
 library(docx2prompt)
-
 extraer_feedback("informe_comentado.docx")
-# → FEEDBACK.md (prompt por defecto: *.Rmd)
-
-# Tras aplicar las correcciones con el agente:
 vaciar_feedback()
 ```
 
-Por defecto el prompt apunta a `*.Rmd` (cualquier R Markdown del proyecto). Si usas bookdown u otra carpeta:
+### Quarto
 
-```r
-extraer_feedback("informe.docx", source_glob = "book/*.Rmd")
+```bash
+quarto render informe.qmd --to docx
+docx2prompt extract informe.docx --source-glob "*.qmd"
+# Cursor aplica tareas sobre *.qmd
+docx2prompt vaciar --source-glob "*.qmd"
 ```
 
-Ayuda en R: `?docx2prompt`, `?extraer_feedback`, `help(package = "docx2prompt")`.
+Personaliza el glob cuando haga falta (`book/*.Rmd`, `docs/**/*.qmd`, etc.).
+
+Ayuda: `?docx2prompt`, `?extraer_feedback`, [python/README.md](python/README.md).
 
 ## Flujo
 
 ```mermaid
 flowchart LR
-  wordDoc["Word_con_comentarios"] --> extract["extraer_feedback"]
+  sources["Rmd_o_qmd"] --> renderDocx["render_a_docx"]
+  renderDocx --> wordDoc["Word_comentarios"]
+  wordDoc --> extract["extraer_feedback"]
   extract --> feedbackMd["FEEDBACK.md"]
   feedbackMd --> agent["Agente_Cursor"]
-  agent --> rmdSrc["Edita_Rmd"]
+  agent --> sources
 ```
-
-1. Knit / exporta el informe a Word y deja **comentarios nativos**.
-2. `extraer_feedback()` genera el checklist.
-3. Cursor (u otro agente) aplica cada **Instruccion** sobre el texto en los `.Rmd`.
-4. `vaciar_feedback()` limpia el Markdown para la siguiente iteracion.
 
 ## FAQ: privacidad y tokens
 
-- **Extraccion 100% local.** El `.docx` se lee en tu maquina (ZIP + XML). No se envia a ninguna API ni servicio en la nube para extraer comentarios.
-- **El agente no ve el Word entero.** Solo trabaja con el checklist: fragmentos senalados + instrucciones. Menos contexto = menos tokens y menos coste.
-- **Menos fuga de contenido sensible.** Tablas, anexos y redaccion completa no tienen que entrar en el prompt del agente si no estan en el checklist.
-- **Python sin dependencias externas.** Solo biblioteca estandar; no hay telemetria del extractor.
+- **Extraccion 100% local.** El `.docx` se lee en tu maquina (ZIP + XML).
+- **El agente no ve el Word entero.** Solo el checklist.
+- **Python sin dependencias externas** en el extractor.
 
 ## Licencia
 

@@ -9,3 +9,6 @@
 ^output$
 ^FEEDBACK\.md$
 ^\.gitignore$
+^demo-informe$
+^demo-quarto$
+^python/\.pytest_cache$

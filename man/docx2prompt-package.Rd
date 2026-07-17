@@ -6,15 +6,15 @@
 \alias{docx2prompt-package}
 \title{docx2prompt: de comentarios Word a prompts Markdown para agentes}
 \description{
-Automatiza el paso de revision de informes redactados en R Markdown:
+Automatiza el paso de revision de informes redactados en R Markdown o Quarto:
 extrae comentarios nativos de un \code{.docx} a un checklist Markdown
 (\code{FEEDBACK.md}) listo para Cursor u otros agentes de IA, que aplican
-las instrucciones sobre los archivos \code{.Rmd} fuente.
+las instrucciones sobre los archivos fuente indicados por \code{source_glob}.
 }
 \details{
-El flujo no asume bookdown: por defecto el prompt apunta a \verb{*.Rmd}.
-Si tus fuentes estan en una carpeta (p. ej. \verb{book/}), pasa
-\code{source_glob = "book/*.Rmd"}.
+Por defecto en R el prompt apunta a \verb{*.Rmd}. Para Quarto usa
+\code{source_glob = "*.qmd"}. Tambien puedes instalar el paquete Python
+(\verb{pip install -e python/}) y usarlo sin R.
 }
 \section{Funciones principales}{
 

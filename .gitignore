@@ -9,3 +9,8 @@ FEEDBACK.md
 
 # Demo local para capturas del README (no se sube al remoto)
 demo-informe/
+demo-quarto/
+
+# Python dev artifacts
+python/.pytest_cache/
+python/tests/fixtures/_tmp*

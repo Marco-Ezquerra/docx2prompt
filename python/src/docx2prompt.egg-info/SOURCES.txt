@@ -1,0 +1,13 @@
+README.md
+pyproject.toml
+src/docx2prompt/__init__.py
+src/docx2prompt/__main__.py
+src/docx2prompt/cli.py
+src/docx2prompt/core.py
+src/docx2prompt.egg-info/PKG-INFO
+src/docx2prompt.egg-info/SOURCES.txt
+src/docx2prompt.egg-info/dependency_links.txt
+src/docx2prompt.egg-info/entry_points.txt
+src/docx2prompt.egg-info/requires.txt
+src/docx2prompt.egg-info/top_level.txt
+tests/test_core.py

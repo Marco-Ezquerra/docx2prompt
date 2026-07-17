@@ -1,0 +1,2 @@
+[console_scripts]
+docx2prompt = docx2prompt.cli:main

@@ -5,9 +5,8 @@
 #' siguiente iteracion con un agente.
 #'
 #' @param md_path Ruta al Markdown de feedback. Por defecto `"FEEDBACK.md"`.
-#' @param source_glob Glob de fuentes `.Rmd` mostrado en el prompt de la
-#'   plantilla. Por defecto `"*.Rmd"`. En bookdown puedes usar
-#'   `"book/*.Rmd"`.
+#' @param source_glob Glob de fuentes mostrado en el prompt de la plantilla.
+#'   Por defecto `"*.Rmd"`. Para Quarto usa `"*.qmd"`.
 #'
 #' @return Ruta del archivo vaciado (invisible).
 #'
@@ -20,7 +19,7 @@
 #' @examples
 #' \dontrun{
 #' vaciar_feedback()
-#' vaciar_feedback("revisiones.md", source_glob = "book/*.Rmd")
+#' vaciar_feedback("revisiones.md", source_glob = "*.qmd")
 #' }
 #'
 #' @export

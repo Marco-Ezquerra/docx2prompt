@@ -11,9 +11,8 @@ extraer_feedback(docx_path, output_md = "FEEDBACK.md", source_glob = "*.Rmd")
 
 \item{output_md}{Ruta donde se generara el Markdown. Por defecto \code{"FEEDBACK.md"}.}
 
-\item{source_glob}{Glob o ruta relativa de fuentes \code{.Rmd} para el prompt
-embebido. Por defecto \code{"*.Rmd"} (cualquier R Markdown del proyecto).
-En bookdown puedes usar p. ej. \code{"book/*.Rmd"}.}
+\item{source_glob}{Glob de fuentes para el prompt embebido. Por defecto \code{"*.Rmd"}.
+Para Quarto usa p. ej. \code{"*.qmd"}. En bookdown: \code{"book/*.Rmd"}.}
 }
 \value{
 Ruta del Markdown generado (invisible).
@@ -21,7 +20,7 @@ Ruta del Markdown generado (invisible).
 \description{
 Lee los comentarios nativos de un \code{.docx} y genera un Markdown con
 checklist (p. ej. \code{FEEDBACK.md}) orientado a agentes como Cursor.
-El agente busca cada \strong{Texto original} en los archivos \code{.Rmd} fuente
+El agente busca cada \strong{Texto original} en los archivos fuente
 (por defecto \verb{*.Rmd}) y aplica la \strong{Instruccion}.
 }
 \details{
@@ -30,7 +29,7 @@ Flujo tipico:
 \item Revisas el informe en Word y dejas comentarios nativos.
 \item Ejecutas \code{extraer_feedback()} para generar el checklist Markdown.
 \item En Cursor (u otro agente), abres el \code{.md} y aplicas cada tarea sobre
-los \code{.Rmd} fuente.
+los fuentes indicados por \code{source_glob}.
 \item Cuando termines, llama a \code{\link[=vaciar_feedback]{vaciar_feedback()}} para limpiar el checklist.
 }
 }
@@ -38,6 +37,7 @@ los \code{.Rmd} fuente.
 \dontrun{
 extraer_feedback("informe_comentado.docx")
 extraer_feedback("informe.docx", "revisiones.md", source_glob = "book/*.Rmd")
+extraer_feedback("informe.docx", source_glob = "*.qmd")
 }
 
 }
