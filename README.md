@@ -7,14 +7,14 @@ Paquete **R** + paquete **Python** local: convierte comentarios nativos de Word 
 
 ## Antes, puente y despues
 
-**Antes** — comentarios nativos en el Word (figura + conclusiones):
+**Antes** — comentarios nativos en el Word (figura + modelo):
 
 <p align="center">
-  <img src="man/figures/1.png" alt="Comentario en Word sobre una figura" width="720" />
+  <img src="man/figures/1.png" alt="Comentario en Word sobre la curva de retención por cohorte" width="720" />
 </p>
 
 <p align="center">
-  <img src="man/figures/2.png" alt="Comentarios en Word sobre las conclusiones" width="720" />
+  <img src="man/figures/2.png" alt="Comentario en Word sobre la selección de variables del modelo logístico" width="720" />
 </p>
 
 **Puente** — extraccion local a Markdown:
